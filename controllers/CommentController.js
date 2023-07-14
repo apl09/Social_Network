@@ -9,7 +9,7 @@ const CommentController = {
       console.error(error);
       res
         .status(500)
-        .send({ message: "There has been a problem creating the post" });
+        .send({ message: "There has been a problem creating the post", error });
     }
   },
 };
