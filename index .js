@@ -9,6 +9,7 @@ app.use(express.json());
 dbConnection();
 
 app.use('/posts', require('./routes/posts'));
+app.use('/comments', require('./routes/comments'));
 
 
 
