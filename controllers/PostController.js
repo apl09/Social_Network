@@ -3,8 +3,7 @@ const Post = require("../models/post");
 const PostController = {
   async create(req, res) {
     try {
-       const post = await Post.create({...req.body,userId:req.user._id});
-      
+      const post = await Post.create({ ...req.body, userId: req.user._id });
 
       res.status(201).send({ msg: "Post created correctly", post });
     } catch (error) {
@@ -64,7 +63,7 @@ const PostController = {
       console.log(error);
     }
   },
-  
+
   async getPostUserComment(req, res) {
     try {
       const { page = 1, limit = 10 } = req.query;
@@ -74,15 +73,13 @@ const PostController = {
         .limit(parseInt(limit))
         .skip((page - 1) * limit)
         .exec();
-        
+
       res.send(post);
-    } catch (err) {
-      console.error(err);
-      res.status(500).send(err);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send(error);
     }
-  } 
-  
-  
+  },
 };
 
 module.exports = PostController;

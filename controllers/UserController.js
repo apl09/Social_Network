@@ -98,6 +98,8 @@ const UserController = {
     }
   },
 
+  
+
   async logout(req, res) {
     try {
       await User.findByIdAndUpdate(req.user._id, {
