@@ -1,6 +1,5 @@
 const Post = require("../models/post");
 
-
 const PostController = {
   async create(req, res) {
     try {
@@ -42,8 +41,8 @@ const PostController = {
 
   async getById(req, res) {
     try {
-      const post = await Post.findById(req.params._id)
-      
+      const post = await Post.findById(req.params._id);
+
       res.send(post);
     } catch (error) {
       console.error(error);
@@ -70,15 +69,19 @@ const PostController = {
       const { page = 1, limit = 10 } = req.query;
       const post = await Post.find()
         .populate("userId")
-        // .populate("commentIds")
+        .populate("commentIds")
+        .limit(parseInt(limit))
+        .skip((page - 1) * limit)
         .exec();
-      
+        
       res.send(post);
     } catch (err) {
       console.error(err);
       res.status(500).send(err);
     }
-  }
+  } 
+  
+  
 };
 
 module.exports = PostController;
