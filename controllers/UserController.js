@@ -5,6 +5,20 @@ const jwt = require("jsonwebtoken");
 const { jwt_secret } = require("../config/keys.js");
 
 const UserController = {
+
+  async getUserConnected(req,res){
+    try {
+      const getUser = await User.findById(req.user._id);
+
+      res.send({ message: "User: ", getUser });
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .send({ message: "There was a problem with server", error });
+    }
+  },
+
   async register(req, res) {
     try {
       req.body.role = "user";

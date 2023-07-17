@@ -5,6 +5,8 @@ const {
   authentication
 } = require("../middlewares/authentication");
 
+router.get("/getuserconnected",authentication, UserController.getUserConnected)
+
 router.post("/register", UserController.register);
 router.post("/login", UserController.login);
 

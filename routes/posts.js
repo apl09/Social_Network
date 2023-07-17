@@ -11,6 +11,6 @@ router.post("/create", authentication, PostController.create);
 
 router.put("/id/:_id", authentication, isAuthor, PostController.update);
 
-router.delete("/delete/:_id", authentication, PostController.delete);
+router.delete("/delete/:_id", authentication,isAuthor, PostController.delete);
 
 module.exports = router;
