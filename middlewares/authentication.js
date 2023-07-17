@@ -1,5 +1,5 @@
 const User = require("../models/user");
-
+const Post = require("../models/post");
 
 const jwt = require("jsonwebtoken");
 const { jwt_secret } = require("../config/keys.js");
@@ -50,4 +50,25 @@ const isAdmin = async (req, res, next) => {
   next();
 };
 
-module.exports = { authentication, isSuperAdmin, isAdmin };
+const isAuthor = async (req, res, next) => {
+  try {
+    const post = await Post.findById(req.params._id);
+
+    if (post.userId.toString() !== req.user._id.toString()) {
+      return res
+        .status(403)
+        .send({ message: "You cannot edit elements that are not yours" });
+    }
+
+    next();
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).send({
+      error,
+      message: "There was a problem with the author check",
+    });
+  }
+};
+
+module.exports = { authentication, isSuperAdmin, isAdmin, isAuthor };
