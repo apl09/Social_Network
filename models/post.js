@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const ObjectId = mongoose.SchemaTypes.ObjectId;
 const PostSchema = new mongoose.Schema(
   {
     title: {
@@ -12,6 +12,10 @@ const PostSchema = new mongoose.Schema(
     },
     image: String,
     like: Number,
+    userId: { type: ObjectId, ref: "User" },
+    commentIds: [
+       { type: ObjectId, ref: "Comment" }
+    ],
   },
   { timestamps: true }
 );

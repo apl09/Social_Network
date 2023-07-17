@@ -1,9 +1,12 @@
 const Post = require("../models/Post");
 
+
 const PostController = {
   async create(req, res) {
     try {
+      // const post = await Post.create({...req.body,userId:req.user._id});
       const post = await Post.create(req.body);
+
       res.status(201).send({ msg: "Post created correctly", post });
     } catch (error) {
       console.error(error);
@@ -39,8 +42,8 @@ const PostController = {
 
   async getById(req, res) {
     try {
-      const post = await Post.findById(req.params._id);
-
+      const post = await Post.findById(req.params._id)
+      
       res.send(post);
     } catch (error) {
       console.error(error);
@@ -63,7 +66,7 @@ const PostController = {
     }
   },
   getPostUserCommentById(req, res) {
-    Post.findById(req.params.id)
+    Post.find(req.params.id)
       .populate({
         path: "users",
         populate: {
