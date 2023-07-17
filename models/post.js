@@ -13,10 +13,10 @@ const PostSchema = new mongoose.Schema(
     },
     image: String,
     like: Number,
+
     userId: { type: ObjectId, ref: "User" },
-    commentIds: [
-       { type: ObjectId, ref: "Comment" }
-    ],
+
+    commentIds: [{ type: ObjectId, ref: "Comment" }],
   },
   { timestamps: true }
 );

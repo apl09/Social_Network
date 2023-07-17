@@ -5,12 +5,44 @@ const jwt = require("jsonwebtoken");
 const { jwt_secret } = require("../config/keys.js");
 
 const UserController = {
-
-  async getUserConnected(req,res){
+  async getUserConnected(req, res) {
     try {
-      const getUser = await User.findById(req.user._id);
+      const getUser = await User.findById(req.user._id)
+        .populate("postIds")
+        .populate("commentIds");
 
       res.send({ message: "User: ", getUser });
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .send({ message: "There was a problem with server", error });
+    }
+  },
+
+  async getUserByUserName(req, res) {
+    try {
+      if (req.params.username.length > 20) {
+        return res.status(400).send("To long search");
+      }
+
+      const username = new RegExp(req.params.username, "i");
+
+      const users = await User.find({ username });
+
+      res.send(users);
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .send({ message: "There was a problem with server", error });
+    }
+  },
+
+  async getUserById(req, res) {
+    try {
+      const users = await User.findById(req.params._id);
+      res.send(users);
     } catch (error) {
       console.error(error);
       res

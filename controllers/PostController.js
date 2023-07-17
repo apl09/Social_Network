@@ -64,6 +64,7 @@ const PostController = {
       console.log(error);
     }
   },
+  
   async getPostUserComment(req, res) {
     try {
       const { page = 1, limit = 10 } = req.query;
