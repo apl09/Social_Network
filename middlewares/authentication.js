@@ -16,7 +16,6 @@ const authentication = async (req, res, next) => {
 
     req.user = user;
     next();
-
   } catch (error) {
     console.error(error);
 
@@ -26,4 +25,28 @@ const authentication = async (req, res, next) => {
   }
 };
 
-module.exports = { authentication };
+const isSuperAdmin = async (req, res, next) => {
+  const admins = ["admin", "superadmin"];
+
+  if (!admins.includes(req.user.role)) {
+    return res.status(403).send({
+      message: "You do not have permission",
+    });
+  }
+
+  next();
+};
+
+const isAdmin = async (req, res, next) => {
+  const admin = "admin";
+
+  if (!admin.includes(req.user.role)) {
+    return res.status(403).send({
+      message: "You are not allowed",
+    });
+  }
+
+  next();
+};
+
+module.exports = { authentication, isSuperAdmin, isAdmin };
