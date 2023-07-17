@@ -24,11 +24,14 @@ const UserController = {
     try {
       const user = await User.findOne({
         email: req.body.email,
-        password: req.body.password,
       });
 
       if (!user) {
-        return res.status(400).send({ msg: "Incorrect email or password" });
+        return res.status(400).send({ msg: "Incorrect username or password" });
+      }
+      const isMatch = bcrypt.compareSync(req.body.password, user.password);
+      if (!isMatch) {
+        return res.status(400).send({ msg: "Incorrect username or password" });
       }
 
       const token = jwt.sign({ _id: user._id }, jwt_secret);

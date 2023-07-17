@@ -46,8 +46,6 @@ const CommentController = {
         .send({ message: "There was a problem trying to remove the comment" });
     }
   },
-  
-
 };
 
 module.exports = CommentController;

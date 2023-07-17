@@ -65,7 +65,7 @@ const PostController = {
       console.log(error);
     }
   },
-  getPostUserCommentById(req, res) {
+  getPostUserComment(req, res) {
     Post.find(req.params.id)
       .populate({
         path: "users",
