@@ -2,12 +2,21 @@ const express = require("express");
 const router = express.Router();
 const PostController = require("../controllers/PostController");
 const { authentication, isAuthor } = require("../middlewares/authentication");
+const {
+  uploadCommentImages,
+  uploadUserProductsImages,
+} = require("../middlewares/multer");
 
 router.get("/id/:_id", PostController.getById);
 router.get("/title/:title", PostController.getPostsByName);
 router.get("/", PostController.getPostUserComment);
 
-router.post("/create", authentication, PostController.create);
+router.post(
+  "/create",
+  authentication,
+  uploadUserProductsImages.single("imageProduct"),
+  PostController.create
+);
 
 router.put("/id/:_id", authentication, isAuthor, PostController.update);
 router.put("/like/:_id", authentication, PostController.like);

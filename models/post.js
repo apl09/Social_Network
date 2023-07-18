@@ -11,7 +11,10 @@ const PostSchema = new mongoose.Schema(
       type: String,
       required: [true, "Body is required"],
     },
-    image: String,
+    image_path: {
+      type: String,
+      required: true,
+    },
     likes: [{ type: ObjectId, ref: "User" }],
     userId: { type: ObjectId, ref: "User" },
     commentIds: [{ type: ObjectId, ref: "Comment" }],
