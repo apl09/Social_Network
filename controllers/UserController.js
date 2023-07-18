@@ -8,6 +8,7 @@ const UserController = {
   async getUserConnected(req, res) {
     try {
       const getUser = await User.findById(req.user._id)
+        // .populate("postIds", "title")
         .populate("postIds")
         .populate("commentIds");
 
