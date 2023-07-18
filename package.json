@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index .js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
+    "test:watch": "jest --watchAll",
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
@@ -21,6 +22,7 @@
   },
   "devDependencies": {
     "jest": "^29.6.1",
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "supertest": "^6.3.3"
   }
 }
