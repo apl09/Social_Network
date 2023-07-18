@@ -11,6 +11,7 @@ router.get(
 router.get("/getuserbyusername/:username", UserController.getUserByUserName);
 router.get("/getuserbyid/:_id", UserController.getUserById);
 
+router.get('/confirm/:email',UserController.confirm)
 router.post("/register", UserController.register);
 router.post("/login", UserController.login);
 

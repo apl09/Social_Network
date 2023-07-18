@@ -79,6 +79,41 @@ const PostController = {
       console.error(error);
       res.status(500).send(error);
     }
+  },  
+  
+  async like(req, res) {
+    try {
+      const post = await Post.findByIdAndUpdate(
+        req.params._id,
+
+        { $push: { likes: req.user._id } },
+
+        { new: true }
+      );
+
+      res.send(post);
+    } catch (error) {
+      console.error(error);
+
+      res.status(500).send({ message: "There was a problem with your like" });
+    }
+  },
+  async dislike(req, res) {
+    try {
+      const post = await Post.findByIdAndUpdate(
+        req.params._id,
+
+        { $pull: { likes: req.user._id } },
+
+        { new: true }
+      );
+
+      res.send(post);
+    } catch (error) {
+      console.error(error);
+
+      res.status(500).send({ message: "There was a problem with your like" });
+    }
   },
 
   async like(req, res) {
