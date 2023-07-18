@@ -55,7 +55,7 @@ const isAuthor = async (req, res, next) => {
     const post = await Post.findById(req.params._id);
 
     if (post.userId.toString() !== req.user._id.toString()) {
-      return res
+      return reserr
         .status(403)
         .send({ message: "You cannot edit elements that are not yours" });
     }

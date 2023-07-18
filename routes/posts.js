@@ -13,6 +13,6 @@ router.put("/id/:_id", authentication, isAuthor, PostController.update);
 router.put('/like/:_id', authentication, PostController.like);
 router.put('/likes/:_id', authentication, PostController.dislike);
 
-router.delete("/delete/:_id", authentication, PostController.delete);
+router.delete("/delete/:_id", authentication,isAuthor, PostController.delete);
 
 module.exports = router;

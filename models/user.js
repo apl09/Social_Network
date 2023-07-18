@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const ObjectId = mongoose.SchemaTypes.ObjectId;
 
 const UserSchema = new mongoose.Schema(
   {
@@ -9,14 +10,20 @@ const UserSchema = new mongoose.Schema(
 
     email: {
       type: String,
-      required: [true, "email is required"],
+      match: [/.+\@.+\..+/, "insert a valid email"],
+      unique: true,
+      required: [true, "please complete all fields"],
     },
 
     password: {
       type: String,
       required: [true, "password is required"],
     },
-    
+
+    postIds: [{ type: ObjectId, ref: "Post" }],
+
+    commentIds: [{ type: ObjectId, ref: "Comment" }],
+
     role: String,
     avatar: String,
     confirmed: Boolean,

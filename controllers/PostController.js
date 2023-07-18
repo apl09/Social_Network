@@ -63,6 +63,7 @@ const PostController = {
       console.log(error);
     }
   },
+
   async getPostUserComment(req, res) {
     try {
       const { page = 1, limit = 10 } = req.query;
@@ -74,28 +75,12 @@ const PostController = {
         .exec();
 
       res.send(post);
-    } catch (err) {
-      console.error(err);
-      res.status(500).send(err);
-    }
-  },
-  async like(req, res) {
-    try {
-      const post = await Post.findByIdAndUpdate(
-        req.params._id,
-
-        { $push: { like: req.user._id } },
-
-        { new: true }
-      );
-
-      res.send(post);
     } catch (error) {
       console.error(error);
-
-      res.status(500).send({ message: "There was a problem with your like" });
+      res.status(500).send(error);
     }
-  },
+  },  
+  
   async like(req, res) {
     try {
       const post = await Post.findByIdAndUpdate(
