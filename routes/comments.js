@@ -9,6 +9,7 @@ router.post("/create", authentication, CommentController.create);
 
 router.put("/id/:_id", authentication, isAuthor, CommentController.update);
 router.put("/like/:_id", authentication, CommentController.like);
+router.put("/like/:_id", authentication,CommentController.like);
 router.put("/dislike/:_id", authentication, CommentController.dislike);
 
 

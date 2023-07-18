@@ -53,7 +53,7 @@ const UserController = {
     }
   },
 
-  async register(req, res) {
+  async register(req, res, next) {
     try {
       req.body.role = "user";
       const url = "http://localhost:3000/users/confirm/" + req.body.email;
@@ -64,8 +64,7 @@ const UserController = {
           <a href="${url}">Click to confirm your registration</a>`,
       });
 
-      const password = await bcrypt.hash(req.body.password, 10);
-      confirmed: false;
+      const password = await bcrypt.hash(req.body.password, 10);      
       const user = await User.create({
         ...req.body,
         password,
@@ -73,6 +72,7 @@ const UserController = {
       });
       res.status(201).send({ message: "User successfully registered", user });
     } catch (error) {
+      next(error)
       console.error(error);
       res
         .status(500)
@@ -80,7 +80,7 @@ const UserController = {
     }
   },
 
-  async login(req, res) {
+  async login(req, res, next) {
     try {
       const user = await User.findOne({
         email: req.body.email,
@@ -114,6 +114,7 @@ const UserController = {
 
       res.send({ message: "Welcome " + user.username, token });
     } catch (error) {
+      next(error)
       console.error(error);
       res
         .status(500)
