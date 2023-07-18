@@ -10,6 +10,8 @@ router.get("/", PostController.getPostUserComment);
 router.post("/create", authentication, PostController.create);
 
 router.put("/id/:_id", authentication, isAuthor, PostController.update);
+router.put("/like/:_id", authentication, PostController.like);
+router.put("/dislike/:_id", authentication, PostController.dislike);
 
 router.delete("/delete/:_id", authentication,isAuthor, PostController.delete);
 

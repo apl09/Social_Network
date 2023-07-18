@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const transporter = require("../config/nodemailer");
 
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -55,15 +56,22 @@ const UserController = {
   async register(req, res) {
     try {
       req.body.role = "user";
+      const url = 'http://localhost:3000/users/confirm/' + req.body.email;
+      await transporter.sendMail({
+        to: req.body.email,
+        subject: "Confirm your registration",
+        html: `<h3>Welcome, you are almost registered</h3>
+          <a href="${url}">Click to confirm your registration</a>`,
+      });
+
       const password = await bcrypt.hash(req.body.password, 10);
-      const user = await User.create({ ...req.body, password });
+      confirmed: false;
+      const user = await User.create({ ...req.body, password, confirmed: false });
 
       res.status(201).send({ message: "User successfully registered", user });
     } catch (error) {
       console.error(error);
-      res
-        .status(500)
-        .send({ message: "There was a problem with registration", error });
+      res.status(500).send({ message: "There was a problem with registration", error });
     }
   },
 
@@ -74,11 +82,16 @@ const UserController = {
       });
 
       if (!user) {
-        return res.status(400).send({ msg: "Incorrect username or password" });
+        return res.status(400).send({ message: "Incorrect username or password" });
       }
+
+      if (!user.confirmed) {
+        return res.status(400).send({ message: "You must confirm your email" });
+      }
+
       const isMatch = bcrypt.compareSync(req.body.password, user.password);
       if (!isMatch) {
-        return res.status(400).send({ msg: "Incorrect username or password" });
+        return res.status(400).send({ message: "Incorrect username or password" });
       }
 
       const token = jwt.sign({ _id: user._id }, jwt_secret);
@@ -93,9 +106,7 @@ const UserController = {
       res.send({ message: "Welcome " + user.username, token });
     } catch (error) {
       console.error(error);
-      res
-        .status(500)
-        .send({ message: "There was a problem with registration", error });
+      res.status(500).send({ message: "There was a problem with login", error });
     }
   },
 
@@ -103,18 +114,31 @@ const UserController = {
 
   async logout(req, res) {
     try {
+      const token = req.headers.authorization;
       await User.findByIdAndUpdate(req.user._id, {
-        $pull: { tokens: req.headers.authorization },
+        $pull: { tokens: token },
       });
 
-      res.send({ message: "Successfully logout" });
+      res.send({ message: "Successfully logged out" });
     } catch (error) {
       console.error(error);
-      res
-        .status(500)
-        .send({ message: "There was a problem with the logout", error });
+      res.status(500).send({ message: "There was a problem with logout", error });
+    }
+  },
+
+  async confirm(req, res) {
+    try {
+      await User.updateOne(
+        { email: req.params.email },
+        { $set: { confirmed: true } }
+      );
+      res.status(201).send("User successfully confirmed");
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ message: "There was a problem with confirmation", error });
     }
   },
 };
+
 
 module.exports = UserController;
