@@ -7,6 +7,7 @@ const CommentController = {
       res.status(201).send({ msg: "Comment created correctly", comment });
     } catch (error) {
       console.error(error);
+      next(error)
       res
         .status(500)
         .send({ message: "There has been a problem creating the post", error });

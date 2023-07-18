@@ -8,8 +8,8 @@ router.get("/id/:_id", authentication, CommentController.getById);
 router.post("/create", authentication, CommentController.create);
 
 router.put("/id/:_id", authentication, isAuthor, CommentController.update);
-router.put("/like/:_id", authentication, PostController.like);
-router.put("/dislike/:_id", authentication, PostController.dislike);
+router.put("/like/:_id", authentication,CommentController.like);
+router.put("/dislike/:_id", authentication, CommentController.dislike);
 
 
 router.delete("/id/:_id", authentication, isAuthor, CommentController.delete);
