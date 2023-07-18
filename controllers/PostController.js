@@ -3,8 +3,7 @@ const Post = require("../models/post");
 const PostController = {
   async create(req, res) {
     try {
-       const post = await Post.create({...req.body,userId:req.user._id});
-      
+      const post = await Post.create({ ...req.body, userId: req.user._id });
 
       res.status(201).send({ msg: "Post created correctly", post });
     } catch (error) {
@@ -73,15 +72,64 @@ const PostController = {
         .limit(parseInt(limit))
         .skip((page - 1) * limit)
         .exec();
-        
+
       res.send(post);
     } catch (err) {
       console.error(err);
       res.status(500).send(err);
     }
-  } 
-  
-  
+  },
+  async like(req, res) {
+    try {
+      const post = await Post.findByIdAndUpdate(
+        req.params._id,
+
+        { $push: { like: req.user._id } },
+
+        { new: true }
+      );
+
+      res.send(post);
+    } catch (error) {
+      console.error(error);
+
+      res.status(500).send({ message: "There was a problem with your like" });
+    }
+  },
+  async like(req, res) {
+    try {
+      const post = await Post.findByIdAndUpdate(
+        req.params._id,
+
+        { $push: { likes: req.user._id } },
+
+        { new: true }
+      );
+
+      res.send(post);
+    } catch (error) {
+      console.error(error);
+
+      res.status(500).send({ message: "There was a problem with your like" });
+    }
+  },
+  async dislike(req, res) {
+    try {
+      const post = await Post.findByIdAndUpdate(
+        req.params._id,
+
+        { $pull: { likes: req.user._id } },
+
+        { new: true }
+      );
+
+      res.send(post);
+    } catch (error) {
+      console.error(error);
+
+      res.status(500).send({ message: "There was a problem with your like" });
+    }
+  },
 };
 
 module.exports = PostController;

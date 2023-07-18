@@ -12,7 +12,7 @@ const PostSchema = new mongoose.Schema(
       required: [true, "Body is required"],
     },
     image: String,
-    like: Number,
+    likes: [{ type: ObjectId, ref: "User" }],
     userId: { type: ObjectId, ref: "User" },
     commentIds: [
        { type: ObjectId, ref: "Comment" }
