@@ -10,10 +10,13 @@ router.get(
 );
 router.get("/getuserbyusername/:username", UserController.getUserByUserName);
 router.get("/getuserbyid/:_id", UserController.getUserById);
+router.get("/confirm/:email", UserController.confirm);
 
-router.get('/confirm/:email',UserController.confirm)
 router.post("/register", UserController.register);
 router.post("/login", UserController.login);
+
+router.put("/follow/:_id", authentication, UserController.follow);
+router.put("/unfollow/:_id", authentication, UserController.unfollow);
 
 router.delete("/logout", authentication, UserController.logout);
 

@@ -56,7 +56,7 @@ const UserController = {
   async register(req, res) {
     try {
       req.body.role = "user";
-      const url = 'http://localhost:3000/users/confirm/' + req.body.email;
+      const url = "http://localhost:3000/users/confirm/" + req.body.email;
       await transporter.sendMail({
         to: req.body.email,
         subject: "Confirm your registration",
@@ -66,12 +66,18 @@ const UserController = {
 
       const password = await bcrypt.hash(req.body.password, 10);
       confirmed: false;
-      const user = await User.create({ ...req.body, password, confirmed: false });
+      const user = await User.create({
+        ...req.body,
+        password,
+        confirmed: false,
+      });
 
       res.status(201).send({ message: "User successfully registered", user });
     } catch (error) {
       console.error(error);
-      res.status(500).send({ message: "There was a problem with registration", error });
+      res
+        .status(500)
+        .send({ message: "There was a problem with registration", error });
     }
   },
 
@@ -82,7 +88,9 @@ const UserController = {
       });
 
       if (!user) {
-        return res.status(400).send({ message: "Incorrect username or password" });
+        return res
+          .status(400)
+          .send({ message: "Incorrect username or password" });
       }
 
       if (!user.confirmed) {
@@ -91,7 +99,9 @@ const UserController = {
 
       const isMatch = bcrypt.compareSync(req.body.password, user.password);
       if (!isMatch) {
-        return res.status(400).send({ message: "Incorrect username or password" });
+        return res
+          .status(400)
+          .send({ message: "Incorrect username or password" });
       }
 
       const token = jwt.sign({ _id: user._id }, jwt_secret);
@@ -106,11 +116,11 @@ const UserController = {
       res.send({ message: "Welcome " + user.username, token });
     } catch (error) {
       console.error(error);
-      res.status(500).send({ message: "There was a problem with login", error });
+      res
+        .status(500)
+        .send({ message: "There was a problem with login", error });
     }
   },
-
-  
 
   async logout(req, res) {
     try {
@@ -122,7 +132,9 @@ const UserController = {
       res.send({ message: "Successfully logged out" });
     } catch (error) {
       console.error(error);
-      res.status(500).send({ message: "There was a problem with logout", error });
+      res
+        .status(500)
+        .send({ message: "There was a problem with logout", error });
     }
   },
 
@@ -135,10 +147,58 @@ const UserController = {
       res.status(201).send("User successfully confirmed");
     } catch (error) {
       console.error(error);
-      res.status(500).send({ message: "There was a problem with confirmation", error });
+      res
+        .status(500)
+        .send({ message: "There was a problem with confirmation", error });
+    }
+  },
+
+  async follow(req, res) {
+    try {
+      const user = await User.findById(req.params._id);
+      const userConnected = await User.findById(req.user._id);
+
+      const alreadyFollow = user.followers.includes(req.user._id);
+
+      if (userConnected._id.toString() === user._id.toString()) {
+        return res.status(400).send({ message: "You cannot follow yourself" });
+      }
+
+      if (alreadyFollow) {
+        return res
+          .status(400)
+          .send({ message: "You have already follow this user" });
+      } else {
+        const user = await User.findByIdAndUpdate(
+          req.params._id,
+          { $push: { followers: req.user._id } },
+          { new: true }
+        );
+        res.send(user);
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ message: "There was a problem with your follow" });
+    }
+  },
+
+  async unfollow(req, res) {
+    try {
+      const user = await User.findByIdAndUpdate(
+        req.params._id,
+
+        { $pull: { followers: req.user._id } },
+
+        { new: true }
+      );
+
+      res.send(user);
+    } catch (error) {
+      console.error(error);
+
+      res.status(500).send({ message: "There was a problem with your like" });
     }
   },
 };
-
 
 module.exports = UserController;

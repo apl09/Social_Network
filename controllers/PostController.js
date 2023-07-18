@@ -79,25 +79,50 @@ const PostController = {
       console.error(error);
       res.status(500).send(error);
     }
-  },  
-  
+  },
+
+  // async like(req, res) {
+  //   try {
+  //     const post = await Post.findByIdAndUpdate(
+  //       req.params._id,
+
+  //       { $push: { likes: req.user._id } },
+
+  //       { new: true }
+  //     );
+
+  //     res.send(post);
+  //   } catch (error) {
+  //     console.error(error);
+
+  //     res.status(500).send({ message: "There was a problem with your like" });
+  //   }
+  // },
+
   async like(req, res) {
     try {
-      const post = await Post.findByIdAndUpdate(
-        req.params._id,
-
-        { $push: { likes: req.user._id } },
-
-        { new: true }
-      );
-
-      res.send(post);
+      const alreadyLiked = Post.findOne({
+        _id: req.params._id,
+        likes: req.user._id,
+      });
+      if (alreadyLiked) {
+        return res
+          .status(400)
+          .send({ message: "You have already liked this post" });
+      } else {
+        const post = await Post.findByIdAndUpdate(
+          req.params._id,
+          { $push: { likes: req.user._id } },
+          { new: true }
+        );
+        res.send(post);
+      }
     } catch (error) {
       console.error(error);
-
       res.status(500).send({ message: "There was a problem with your like" });
     }
   },
+
   async dislike(req, res) {
     try {
       const post = await Post.findByIdAndUpdate(
@@ -112,34 +137,6 @@ const PostController = {
     } catch (error) {
       console.error(error);
 
-      res.status(500).send({ message: "There was a problem with your like" });
-    }
-  },
-
-  async like(req, res) {
-    try {
-      const post = await Post.findByIdAndUpdate(
-        req.params._id,
-        { $push: { likes: req.user._id } },
-        { new: true }
-      );
-      res.send(post);
-    } catch (error) {
-      console.error(error);
-      res.status(500).send({ message: "There was a problem with your like" });
-    }
-  },
-  
-  async dislike(req, res) {
-    try {
-      const post = await Post.findByIdAndUpdate(
-        req.params._id,
-        { $pull: { likes: req.user._id } },
-        { new: true }
-      );
-      res.send(post);
-    } catch (error) {
-      console.error(error);
       res.status(500).send({ message: "There was a problem with your like" });
     }
   },

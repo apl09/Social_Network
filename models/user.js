@@ -24,10 +24,11 @@ const UserSchema = new mongoose.Schema(
 
     commentIds: [{ type: ObjectId, ref: "Comment" }],
 
-    role: String,
     avatar: String,
+    role: String,
     confirmed: Boolean,
     tokens: [],
+    followers: [],
   },
   { timestamps: true }
 );
