@@ -9,6 +9,7 @@ const UserController = {
   async getUserConnected(req, res) {
     try {
       const getUser = await User.findById(req.user._id)
+        // .populate("postIds", "title")
         .populate("postIds")
         .populate("commentIds");
 
@@ -64,11 +65,19 @@ const UserController = {
       });
 
       const password = await bcrypt.hash(req.body.password, 10);
+<<<<<<< HEAD
+=======
+      confirmed: false;
+>>>>>>> development
       const user = await User.create({
         ...req.body,
         password,
         confirmed: false,
       });
+<<<<<<< HEAD
+=======
+
+>>>>>>> development
       res.status(201).send({ message: "User successfully registered", user });
     } catch (error) {
       console.error(error);
@@ -147,6 +156,53 @@ const UserController = {
       res
         .status(500)
         .send({ message: "There was a problem with confirmation", error });
+    }
+  },
+
+  async follow(req, res) {
+    try {
+      const user = await User.findById(req.params._id);
+      const userConnected = await User.findById(req.user._id);
+
+      const alreadyFollow = user.followers.includes(req.user._id);
+
+      if (userConnected._id.toString() === user._id.toString()) {
+        return res.status(400).send({ message: "You cannot follow yourself" });
+      }
+
+      if (alreadyFollow) {
+        return res
+          .status(400)
+          .send({ message: "You have already follow this user" });
+      } else {
+        const user = await User.findByIdAndUpdate(
+          req.params._id,
+          { $push: { followers: req.user._id } },
+          { new: true }
+        );
+        res.send(user);
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ message: "There was a problem with your follow" });
+    }
+  },
+
+  async unfollow(req, res) {
+    try {
+      const user = await User.findByIdAndUpdate(
+        req.params._id,
+
+        { $pull: { followers: req.user._id } },
+
+        { new: true }
+      );
+
+      res.send(user);
+    } catch (error) {
+      console.error(error);
+
+      res.status(500).send({ message: "There was a problem with your like" });
     }
   },
 };
