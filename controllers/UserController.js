@@ -55,7 +55,7 @@ const UserController = {
   async register(req, res) {
     try {
       req.body.role = "user";
-      const url = 'http://localhost:3000/users/confirm/' + req.body.email;
+      const url = "http://localhost:3000/users/confirm/" + req.body.email;
       await transporter.sendMail({
         to: req.body.email,
         subject: "Confirm your registration",
@@ -64,13 +64,17 @@ const UserController = {
       });
 
       const password = await bcrypt.hash(req.body.password, 10);
-      confirmed: false;
-      const user = await User.create({ ...req.body, password, confirmed: false });
-
+      const user = await User.create({
+        ...req.body,
+        password,
+        confirmed: false,
+      });
       res.status(201).send({ message: "User successfully registered", user });
     } catch (error) {
       console.error(error);
-      res.status(500).send({ message: "There was a problem with registration", error });
+      res
+        .status(500)
+        .send({ message: "There was a problem with registration", error });
     }
   },
 
@@ -81,7 +85,9 @@ const UserController = {
       });
 
       if (!user) {
-        return res.status(400).send({ message: "Incorrect username or password" });
+        return res
+          .status(400)
+          .send({ message: "Incorrect username or password" });
       }
 
       if (!user.confirmed) {
@@ -90,7 +96,9 @@ const UserController = {
 
       const isMatch = bcrypt.compareSync(req.body.password, user.password);
       if (!isMatch) {
-        return res.status(400).send({ message: "Incorrect username or password" });
+        return res
+          .status(400)
+          .send({ message: "Incorrect username or password" });
       }
 
       const token = jwt.sign({ _id: user._id }, jwt_secret);
@@ -105,11 +113,11 @@ const UserController = {
       res.send({ message: "Welcome " + user.username, token });
     } catch (error) {
       console.error(error);
-      res.status(500).send({ message: "There was a problem with login", error });
+      res
+        .status(500)
+        .send({ message: "There was a problem with login", error });
     }
   },
-
-  
 
   async logout(req, res) {
     try {
@@ -121,7 +129,9 @@ const UserController = {
       res.send({ message: "Successfully logged out" });
     } catch (error) {
       console.error(error);
-      res.status(500).send({ message: "There was a problem with logout", error });
+      res
+        .status(500)
+        .send({ message: "There was a problem with logout", error });
     }
   },
 
@@ -134,10 +144,11 @@ const UserController = {
       res.status(201).send("User successfully confirmed");
     } catch (error) {
       console.error(error);
-      res.status(500).send({ message: "There was a problem with confirmation", error });
+      res
+        .status(500)
+        .send({ message: "There was a problem with confirmation", error });
     }
   },
 };
-
 
 module.exports = UserController;
