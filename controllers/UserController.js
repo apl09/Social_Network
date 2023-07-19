@@ -69,15 +69,12 @@ const UserController = {
         ...req.body,
         password,
         confirmed: false,
-        avatar: req.file.filename
+        avatar: req.file?.filename
       });
       res.status(201).send({ message: "User successfully registered", user });
     } catch (error) {
       next(error);
       console.error(error);
-      res
-        .status(500)
-        .send({ message: "There was a problem with registration", error });
     }
   },
 

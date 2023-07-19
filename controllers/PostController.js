@@ -9,9 +9,6 @@ const PostController = {
     } catch (error) {
       console.error(error);
       next(error);
-      res
-        .status(500)
-        .send({ message: "There has been a problem creating the post", error });
     }
   },
 
@@ -19,7 +16,7 @@ const PostController = {
     try {
       const post = await Post.findByIdAndUpdate(
         req.params._id,
-        { ...req.body, image: req.file.filename },
+        { ...req.body, image: req.file?.filename },
         { new: true }
       );
   
