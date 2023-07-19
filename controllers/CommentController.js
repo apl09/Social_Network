@@ -1,9 +1,13 @@
 const Comment = require("../models/comment");
+const User = require("../models/user");
 
 const CommentController = {
   async create(req, res) {
     try {
-      const comment = await Comment.create(req.body, image.req.file.filename);
+      const userConnected = await User.findById(req.user._id)
+      req.body.userId = userConnected._id;
+
+      const comment = await Comment.create(req.body);
       res.status(201).send({ msg: "Comment created correctly", comment });
     } catch (error) {
       console.error(error);

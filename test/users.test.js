@@ -12,15 +12,15 @@ describe("testing/users", () => {
   };
 
   afterAll(async () => {
-    return await User.deleteMany({});
+    return await User.deleteOne({})
   });
-
+  
   test("Create a user", async () => {
     console.clear();
     const res = await request(app)
-      .post("/users/register")
-      .send(user)
-      .expect(201);
+    .post("/users/register")
+    .send(user)
+    .expect(201);
     const sendUser = {
       ...user,
       _id: res.body.user._id,
@@ -35,8 +35,10 @@ describe("testing/users", () => {
       __v: 0,
       confirmed: res.body.user.confirmed,
     };
-
+    
     const newUser = res.body.user;
     expect(newUser).toEqual(sendUser);
   });
+
+
 });

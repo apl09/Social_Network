@@ -9,9 +9,8 @@ const UserController = {
   async getUserConnected(req, res) {
     try {
       const getUser = await User.findById(req.user._id)
-        // .populate("postIds", "title")
-        .populate("postIds")
-        .populate("commentIds");
+        .populate("postIds", "title body")
+        .populate("followers", "username")
 
       res.send({ message: "User: ", getUser });
     } catch (error) {
@@ -74,7 +73,7 @@ const UserController = {
       });
       res.status(201).send({ message: "User successfully registered", user });
     } catch (error) {
-      next(error)
+      next(error);
       console.error(error);
       res
         .status(500)
@@ -116,7 +115,7 @@ const UserController = {
 
       res.send({ message: "Welcome " + user.username, token });
     } catch (error) {
-      next(error)
+      next(error);
       console.error(error);
       res
         .status(500)
