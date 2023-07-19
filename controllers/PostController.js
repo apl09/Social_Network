@@ -1,14 +1,14 @@
 const Post = require("../models/post");
 
 const PostController = {
-  async create(req, res) {
+  async create(req, res, next) {
     try {
       const post = await Post.create({ ...req.body, userId: req.user._id });
 
       res.status(201).send({ msg: "Post created correctly", post });
     } catch (error) {
       console.error(error);
-      next(error)
+      next(error);
       res
         .status(500)
         .send({ message: "There has been a problem creating the post", error });
@@ -61,7 +61,9 @@ const PostController = {
 
       res.send(posts);
     } catch (error) {
-      console.log(error);
+      console.error(error);
+
+      res.status(500).send({ message: "There was a problem" });
     }
   },
 
@@ -70,7 +72,7 @@ const PostController = {
       const { page = 1, limit = 10 } = req.query;
       const post = await Post.find()
         .populate("userId")
-        .populate("commentIds")
+        // .populate("commentIds")
         .limit(parseInt(limit))
         .skip((page - 1) * limit)
         .exec();
@@ -85,7 +87,7 @@ const PostController = {
   async like(req, res) {
     try {
       const post = await Post.findById(req.params._id);
-      const alreadyLiked = post.likes.includes(req.user._id)
+      const alreadyLiked = post.likes.includes(req.user._id);
       if (alreadyLiked) {
         return res
           .status(400)
@@ -124,6 +126,18 @@ const PostController = {
       res.status(500).send({ message: "There was a problem with your like" });
     }
   },
+
+  async getAll(req, res) {
+    try {
+      const posts = await Post.find();
+
+      res.send(posts);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ message: "There was a problem" });
+    }
+  },
+
 };
 
 module.exports = PostController;

@@ -8,10 +8,16 @@ const { jwt_secret } = require("../config/keys.js");
 const UserController = {
   async getUserConnected(req, res) {
     try {
+      // const followers = req.user.followers.forEach((id) => {
+      //   User.findById(id);
+        
+      // });
+      // console.log(followers);
+
+
       const getUser = await User.findById(req.user._id)
-        // .populate("postIds", "title")
-        .populate("postIds")
-        .populate("commentIds");
+        .populate("postIds", "title body")
+        .populate("followers", "username")
 
       res.send({ message: "User: ", getUser });
     } catch (error) {
@@ -64,7 +70,7 @@ const UserController = {
           <a href="${url}">Click to confirm your registration</a>`,
       });
 
-      const password = await bcrypt.hash(req.body.password, 10);      
+      const password = await bcrypt.hash(req.body.password, 10);
       const user = await User.create({
         ...req.body,
         password,
@@ -72,7 +78,7 @@ const UserController = {
       });
       res.status(201).send({ message: "User successfully registered", user });
     } catch (error) {
-      next(error)
+      next(error);
       console.error(error);
       res
         .status(500)
@@ -114,7 +120,7 @@ const UserController = {
 
       res.send({ message: "Welcome " + user.username, token });
     } catch (error) {
-      next(error)
+      next(error);
       console.error(error);
       res
         .status(500)

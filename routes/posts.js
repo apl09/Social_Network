@@ -7,6 +7,7 @@ const {
   uploadUserProductsImages,
 } = require("../middlewares/multer");
 
+router.get("/getall", PostController.getAll)
 router.get("/id/:_id", PostController.getById);
 router.get("/title/:title", PostController.getPostsByName);
 router.get("/", PostController.getPostUserComment);
