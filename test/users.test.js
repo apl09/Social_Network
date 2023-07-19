@@ -5,8 +5,6 @@ const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 const { jwt_secret } = require("../config/keys");
 
-// const { User } = require("../models/user.js");
-
 describe("testing/users", () => {
   const user = {
     username: "Testing",
@@ -14,12 +12,14 @@ describe("testing/users", () => {
     password: "test1234",
   };
 
+  // afterAll(async () => {
+  //   return await User.deleteMany({}); // Cambiar esto y que sólo me borre el de testing
+  // });
   afterAll(async () => {
-    return await User.deleteMany({}); // Cambiar esto y que sólo me borre el de testing
+    return await User.findByIdAndDelete(newUser._id); // Cambiar esto y que sólo me borre el de testing
   });
 
   test("Create a user", async () => {
-    console.clear();
     const res = await request(app)
       .post("/users/register")
       .send(user)
@@ -43,6 +43,8 @@ describe("testing/users", () => {
     expect(newUser).toEqual(sendUser);
   });
 
+  let newUser;
+
   test("Confirm a user", async () => {
     const emailToken = jwt.sign({ email: user.email }, jwt_secret, {
       expiresIn: "48h",
@@ -52,4 +54,15 @@ describe("testing/users", () => {
       .expect(201);
     expect(res.text).toBe("User successfully confirmed");
   });
+
+  // Me da error a la hora de confirmar usuario, no se si es culpa del de arriba o el siguiente
+  test("Login a user", async () => {
+    const res = await request(app)
+      .post("/users/login")
+      .send({ email: "testing@test.com", password: "test1234" })
+      .expect(200);
+    expect(res.body.token).toBeDefined();
+    token = res.body.token;
+  });
+  let token;
 });
