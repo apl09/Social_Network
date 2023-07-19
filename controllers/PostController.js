@@ -129,7 +129,7 @@ const PostController = {
 
   async getAll(req, res) {
     try {
-      const posts = await Post.find();
+      const posts = await Post.find().populate("userId").populate("commentIds");
 
       res.send(posts);
     } catch (error) {
@@ -137,7 +137,6 @@ const PostController = {
       res.status(500).send({ message: "There was a problem" });
     }
   },
-
 };
 
 module.exports = PostController;

@@ -8,13 +8,6 @@ const { jwt_secret } = require("../config/keys.js");
 const UserController = {
   async getUserConnected(req, res) {
     try {
-      // const followers = req.user.followers.forEach((id) => {
-      //   User.findById(id);
-        
-      // });
-      // console.log(followers);
-
-
       const getUser = await User.findById(req.user._id)
         .populate("postIds", "title body")
         .populate("followers", "username")
