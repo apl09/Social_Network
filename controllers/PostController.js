@@ -20,7 +20,7 @@ const PostController = {
     try {
       const post = await Post.findByIdAndUpdate(
         req.params._id,
-        { ...req.body, image: req.file?.filename },
+        { ...req.body, image: req.file?.filename }, //Esta línea da error
         { new: true }
       );
 
@@ -98,7 +98,7 @@ const PostController = {
   async like(req, res) {
     try {
       const post = await Post.findById(req.params._id);
-      const alreadyLiked = post.likes.includes(req.user._id);
+      const alreadyLiked = post.likes?.includes(req.user._id);
       if (alreadyLiked) {
         return res
           .status(400)
@@ -129,6 +129,14 @@ const PostController = {
 
         { new: true }
       );
+
+      const alreadyLiked = post.likes.includes(req.user._id);
+
+      if (!alreadyLiked) {
+        return res
+          .status(400)
+          .send({ message: "You have already disliked this post" });
+      }
 
       res.send(post);
     } catch (error) {
