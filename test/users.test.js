@@ -12,7 +12,7 @@ describe("testing/users", () => {
   };
 
   afterAll(async () => {
-    return await User.deleteOne({})
+    return await User.deleteMany({}) // Cambiar esto y que sólo me borre el de testing
   });
   
   test("Create a user", async () => {

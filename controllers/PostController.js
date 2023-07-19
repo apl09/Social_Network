@@ -3,7 +3,11 @@ const Post = require("../models/Post");
 const PostController = {
   async create(req, res, next) {
     try {
-      const post = await Post.create({ ...req.body, userId: req.user._id, image: req.file.filename  });
+      const post = await Post.create({
+        ...req.body,
+        userId: req.user._id,
+        image: req.file.filename,
+      });
 
       res.status(201).send({ msg: "Post created correctly", post });
     } catch (error) {
@@ -19,7 +23,7 @@ const PostController = {
         { ...req.body, image: req.file?.filename },
         { new: true }
       );
-  
+
       res.send({ message: "Post successfully updated", post });
     } catch (error) {
       console.error(error);
@@ -42,6 +46,10 @@ const PostController = {
     try {
       const post = await Post.findById(req.params._id);
 
+      if (!post) {
+        return res.status(400).send({ message: "This post doesn't exist" });
+      }
+
       res.send(post);
     } catch (error) {
       console.error(error);
@@ -57,6 +65,10 @@ const PostController = {
       const title = new RegExp(req.params.title, "i");
 
       const posts = await Post.find({ title });
+
+      if (!posts) {
+        return res.status(400).send({ message: "This post doesn't exist" });
+      }
 
       res.send(posts);
     } catch (error) {

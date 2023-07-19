@@ -10,7 +10,7 @@ const UserController = {
     try {
       const getUser = await User.findById(req.user._id)
         .populate("postIds", "title body")
-        .populate("followers", "username")
+        .populate("followers", "username");
 
       res.send({ message: "User: ", getUser });
     } catch (error) {
@@ -31,6 +31,10 @@ const UserController = {
 
       const users = await User.find({ username });
 
+      if (!users) {
+        return res.status(400).send({ message: "This user doesn't exist" });
+      }
+
       res.send(users);
     } catch (error) {
       console.error(error);
@@ -42,8 +46,13 @@ const UserController = {
 
   async getUserById(req, res) {
     try {
-      const users = await User.findById(req.params._id);
-      res.send(users);
+      const user = await User.findById(req.params._id);
+
+      if (!user) {
+        return res.status(400).send({ message: "This user doesn't exist" });
+      }
+
+      res.send(user);
     } catch (error) {
       console.error(error);
       res
@@ -63,13 +72,13 @@ const UserController = {
           <a href="${url}">Click to confirm your registration</a>`,
       });
 
-      const password = await bcrypt.hash(req.body.password, 10);      
- 
+      const password = await bcrypt.hash(req.body.password, 10);
+
       const user = await User.create({
         ...req.body,
         password,
         confirmed: false,
-        avatar: req.file?.filename
+        avatar: req.file?.filename,
       });
       res.status(201).send({ message: "User successfully registered", user });
     } catch (error) {

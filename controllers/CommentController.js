@@ -4,14 +4,14 @@ const User = require("../models/user");
 const CommentController = {
   async create(req, res) {
     try {
-      const userConnected = await User.findById(req.user._id)
+      const userConnected = await User.findById(req.user._id);
       req.body.userId = userConnected._id;
 
       const comment = await Comment.create(req.body);
       res.status(201).send({ msg: "Comment created correctly", comment });
     } catch (error) {
       console.error(error);
-      next(error)
+      next(error);
       res
         .status(500)
         .send({ message: "There has been a problem creating the post", error });
@@ -21,6 +21,10 @@ const CommentController = {
   async getById(req, res) {
     try {
       const comment = await Comment.findById(req.params._id);
+
+      if (!comment) {
+        return res.status(400).send({ message: "This comment doesn't exist" });
+      }
 
       res.send(comment);
     } catch (error) {
@@ -35,7 +39,7 @@ const CommentController = {
         { ...req.body, image: req.file.filename },
         { new: true }
       );
-  
+
       res.send({ message: "Comment successfully updated", comment });
     } catch (error) {
       console.error(error);
@@ -45,6 +49,7 @@ const CommentController = {
   async delete(req, res) {
     try {
       const comment = await Comment.findByIdAndDelete(req.params._id);
+
       res.send({ message: "Comment deleted", comment });
     } catch (error) {
       console.error(error);
@@ -56,7 +61,7 @@ const CommentController = {
   async like(req, res) {
     try {
       const comment = await Comment.findById(req.params._id);
-      const alreadyLiked = comment.likes.includes(req.user._id)
+      const alreadyLiked = comment.likes.includes(req.user._id);
       if (alreadyLiked) {
         return res
           .status(400)
