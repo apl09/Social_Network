@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const ObjectId = mongoose.SchemaTypes.ObjectId;
 
+
+
 const PostSchema = new mongoose.Schema(
   {
     title: {
@@ -11,10 +13,8 @@ const PostSchema = new mongoose.Schema(
       type: String,
       required: [true, "Body is required"],
     },
-    image_path: {
-      type: String,
-      required: true,
-    },
+    
+    image:String,
     likes: [{ type: ObjectId, ref: "User" }],
     userId: { type: ObjectId, ref: "User" },
     commentIds: [{ type: ObjectId, ref: "Comment" }],

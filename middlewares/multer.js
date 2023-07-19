@@ -1,5 +1,6 @@
 const Multer = require("multer");
 const mimetypes = ["image/png", "image/jpg", "image/jpeg", "image/gif"];
+
 const generateUploadImageMulter = (path) =>
   Multer({
     storage: Multer.diskStorage({
@@ -13,11 +14,15 @@ const generateUploadImageMulter = (path) =>
     },
     limits: { fileSize: 2 * 1024 * 1024 },
   });
-const uploadUserProductsImages = generateUploadImageMulter(
-  "./public/images/user/products"
+const uploadUserImages = generateUploadImageMulter(
+  "./assets/images"
 );
 const uploadCommentImages = generateUploadImageMulter(
-  "./public/images/user/comments"
+  "./assets/images"
 );
 
-module.exports = { uploadUserProductsImages, uploadCommentImages };
+const uploadPostImages = generateUploadImageMulter(
+  "./assets/images"
+);
+
+module.exports = { uploadPostImages, uploadUserImages, uploadCommentImages };

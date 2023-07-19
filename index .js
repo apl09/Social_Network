@@ -6,6 +6,7 @@ const {dbConnection} = require("./config/config")
 const { handleTypeError }= require('./middlewares/errors');
 
 app.use(express.json());
+app.use(express.static("./assets"))
 
 dbConnection();
 

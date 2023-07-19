@@ -3,7 +3,7 @@ const Comment = require("../models/comment");
 const CommentController = {
   async create(req, res) {
     try {
-      const comment = await Comment.create(req.body);
+      const comment = await Comment.create(req.body, image.req.file.filename);
       res.status(201).send({ msg: "Comment created correctly", comment });
     } catch (error) {
       console.error(error);
@@ -26,11 +26,13 @@ const CommentController = {
 
   async update(req, res) {
     try {
-      const comment = await Comment.findByIdAndUpdate(req.params._id, req.body, {
-        new: true,
-      });
-
-      res.send({ message: "comment successfully updated", comment });
+      const comment = await Comment.findByIdAndUpdate(
+        req.params._id,
+        { ...req.body, image: req.file.filename },
+        { new: true }
+      );
+  
+      res.send({ message: "Comment successfully updated", comment });
     } catch (error) {
       console.error(error);
     }

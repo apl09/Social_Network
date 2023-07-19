@@ -1,9 +1,9 @@
-const Post = require("../models/post");
+const Post = require("../models/Post");
 
 const PostController = {
   async create(req, res) {
     try {
-      const post = await Post.create({ ...req.body, userId: req.user._id });
+      const post = await Post.create({ ...req.body, userId: req.user._id, image: req.file.filename  });
 
       res.status(201).send({ msg: "Post created correctly", post });
     } catch (error) {
@@ -17,11 +17,13 @@ const PostController = {
 
   async update(req, res) {
     try {
-      const post = await Post.findByIdAndUpdate(req.params._id, req.body, {
-        new: true,
-      });
-
-      res.send({ message: "post successfully updated", post });
+      const post = await Post.findByIdAndUpdate(
+        req.params._id,
+        { ...req.body, image: req.file.filename },
+        { new: true }
+      );
+  
+      res.send({ message: "Post successfully updated", post });
     } catch (error) {
       console.error(error);
     }

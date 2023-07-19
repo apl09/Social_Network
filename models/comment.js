@@ -6,6 +6,7 @@ const CommentSchema = new mongoose.Schema(
     title: String,
     body: String,
     like: Number,
+    image:String,
 
     userId: { type: ObjectId, ref: "User" },
     postId: { type: ObjectId, ref: "Post" },

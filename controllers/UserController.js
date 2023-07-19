@@ -65,10 +65,12 @@ const UserController = {
       });
 
       const password = await bcrypt.hash(req.body.password, 10);      
+ 
       const user = await User.create({
         ...req.body,
         password,
         confirmed: false,
+        avatar: req.file.filename
       });
       res.status(201).send({ message: "User successfully registered", user });
     } catch (error) {
