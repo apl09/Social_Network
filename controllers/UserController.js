@@ -199,6 +199,12 @@ const UserController = {
         { new: true }
       );
 
+      const alreadyFollow = user.followers.includes(req.user._id);
+
+      if(!alreadyFollow){
+        return res.status(400).send({message: "You "})
+      }
+
       res.send(user);
     } catch (error) {
       console.error(error);
