@@ -10,7 +10,7 @@ const UserController = {
     try {
       const getUser = await User.findById(req.user._id)
         .populate("postIds", "title body")
-        .populate("followers", "username")
+        .populate("followers", "username");
 
       res.send({ message: "User: ", getUser });
     } catch (error) {
@@ -63,13 +63,13 @@ const UserController = {
           <a href="${url}">Click to confirm your registration</a>`,
       });
 
-      const password = await bcrypt.hash(req.body.password, 10);      
- 
+      const password = await bcrypt.hash(req.body.password, 10);
+
       const user = await User.create({
         ...req.body,
         password,
         confirmed: false,
-        avatar: req.file?.filename
+        avatar: req.file?.filename,
       });
       res.status(201).send({ message: "User successfully registered", user });
     } catch (error) {
@@ -195,6 +195,35 @@ const UserController = {
       console.error(error);
 
       res.status(500).send({ message: "There was a problem with your like" });
+    }
+  },
+  async recoverPassword(req, res) {
+    try {
+      const recoverToken = jwt.sign({ email: req.params.email }, jwt_secret, {
+        expiresIn: "48h",
+      });
+
+      const url = "http://localhost:3000/users/resetPassword/" + recoverToken;
+
+      await transporter.sendMail({
+        to: req.params.email,
+
+        subject: "Recover password",
+
+        html: `<h3> Recover password </h3>
+    
+    <a href="${url}">Recover password</a>
+    
+    The link expires in 48 hours
+    
+    `,
+      });
+
+      res.send({
+        message: "Un correo de recuperación se envio a tu dirección de correo",
+      });
+    } catch (error) {
+      console.error(error);
     }
   },
 };
