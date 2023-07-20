@@ -3,13 +3,15 @@ const User = require("../models/user");
 const Post = require("../models/Post");
 
 const CommentController = {
-  async create(req, res,next) {
+  async create(req, res, next) {
     try {
       const userConnected = await User.findById(req.user._id);
       req.body.userId = userConnected._id;
-      
+
       const comment = await Comment.create(req.body);
-      await Post.findByIdAndUpdate(req.body.postId, { $push: { commentIds: comment._id } })
+      await Post.findByIdAndUpdate(req.body.postId, {
+        $push: { commentIds: comment._id },
+      });
       res.status(201).send({ msg: "Comment created correctly", comment });
     } catch (error) {
       console.error(error);
@@ -85,15 +87,22 @@ const CommentController = {
 
   async dislike(req, res) {
     try {
-      const comment = await Comment.findByIdAndUpdate(
-        req.params._id,
+      const findComment = await Comment.findById(req.params._id);
+      const alreadyLiked = findComment.likes.includes(req.user._id);
 
+      if (alreadyLiked === false) {
+        return res
+          .status(400)
+          .send({ message: "You have already disliked this comment" });
+      }
+
+      await Comment.updateOne(
+        findComment,
         { $pull: { likes: req.user._id } },
-
         { new: true }
       );
 
-      res.send(comment);
+      res.send(findComment);
     } catch (error) {
       console.error(error);
 

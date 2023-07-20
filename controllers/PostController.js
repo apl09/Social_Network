@@ -127,23 +127,22 @@ const PostController = {
 
   async dislike(req, res) {
     try {
-      const post = await Post.findByIdAndUpdate(
-        req.params._id,
+      const findPost = await Post.findById(req.params._id);
+      const alreadyLiked = findPost.likes.includes(req.user._id);
 
-        { $pull: { likes: req.user._id } },
-
-        { new: true }
-      );
-
-      const alreadyLiked = post.likes.includes(req.user._id);
-
-      if (!alreadyLiked) {
+      if (alreadyLiked === false) {
         return res
           .status(400)
           .send({ message: "You have already disliked this post" });
       }
 
-      res.send(post);
+      await Post.updateOne(
+        findPost,
+        { $pull: { likes: req.user._id } },
+        { new: true }
+      );
+
+      res.send(findPost);
     } catch (error) {
       console.error(error);
 

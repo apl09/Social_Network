@@ -191,25 +191,27 @@ const UserController = {
 
   async unfollow(req, res) {
     try {
-      const user = await User.findByIdAndUpdate(
-        req.params._id,
+      const findUser = await User.findById(req.params._id);
 
+      const alreadyFollow = findUser.followers.includes(req.user._id);
+
+      if (alreadyFollow === false) {
+        return res
+          .status(400)
+          .send({ message: "You have already unfollow this user" });
+      }
+
+      await User.updateOne(
+        findUser,
         { $pull: { followers: req.user._id } },
-
         { new: true }
       );
 
-      const alreadyFollow = user.followers.includes(req.user._id);
-
-      if(!alreadyFollow){
-        return res.status(400).send({message: "You "})
-      }
-
-      res.send(user);
+      res.send(findUser);
     } catch (error) {
       console.error(error);
 
-      res.status(500).send({ message: "There was a problem with your like" });
+      res.status(500).send({ message: "There was a problem with your follow" });
     }
   },
   async recoverPassword(req, res) {
@@ -253,7 +255,6 @@ const UserController = {
 
         { password: password }
       );
-      
 
       res.send({ message: "password changed succesfully" });
     } catch (error) {
