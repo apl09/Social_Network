@@ -26,29 +26,29 @@ const authentication = async (req, res, next) => {
   }
 };
 
-const isSuperAdmin = async (req, res, next) => {
-  const admins = ["admin", "superadmin"];
+// const isSuperAdmin = async (req, res, next) => {
+//   const admins = ["admin", "superadmin"];
 
-  if (!admins.includes(req.user.role)) {
-    return res.status(403).send({
-      message: "You do not have permission",
-    });
-  }
+//   if (!admins.includes(req.user.role)) {
+//     return res.status(403).send({
+//       message: "You do not have permission",
+//     });
+//   }
 
-  next();
-};
+//   next();
+// };
 
-const isAdmin = async (req, res, next) => {
-  const admin = "admin";
+// const isAdmin = async (req, res, next) => {
+//   const admin = "admin";
 
-  if (!admin.includes(req.user.role)) {
-    return res.status(403).send({
-      message: "You are not allowed",
-    });
-  }
+//   if (!admin.includes(req.user.role)) {
+//     return res.status(403).send({
+//       message: "You are not allowed",
+//     });
+//   }
 
-  next();
-};
+//   next();
+// };
 
 const isAuthor = async (req, res, next) => {
   try {
@@ -71,4 +71,4 @@ const isAuthor = async (req, res, next) => {
   }
 };
 
-module.exports = { authentication, isSuperAdmin, isAdmin, isAuthor };
+module.exports = { authentication, /* isSuperAdmin, isAdmin, */ isAuthor };

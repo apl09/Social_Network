@@ -31,6 +31,10 @@ const UserController = {
 
       const users = await User.find({ username });
 
+      if (!users) {
+        return res.status(400).send({ message: "This user doesn't exist" });
+      }
+
       res.send(users);
     } catch (error) {
       console.error(error);
@@ -42,8 +46,13 @@ const UserController = {
 
   async getUserById(req, res) {
     try {
-      const users = await User.findById(req.params._id);
-      res.send(users);
+      const user = await User.findById(req.params._id);
+
+      if (!user) {
+        return res.status(400).send({ message: "This user doesn't exist" });
+      }
+
+      res.send(user);
     } catch (error) {
       console.error(error);
       res
