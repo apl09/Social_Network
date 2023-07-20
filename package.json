@@ -4,7 +4,10 @@
   "main": "index .js",
   "scripts": {
     "test": "jest",
-    "test:watch": "jest --watchAll",
+    "test:watch": "jest --watchAll --runInBand",
+    "test-users": "jest --testPathPattern=users.test.js",
+    "test-posts": "jest --testPathPattern=posts.test.js",
+    "test-comments": "jest --testPathPattern=comments.test.js",
     "start": "node index.js",
     "dev": "nodemon index.js"
   },

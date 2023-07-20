@@ -16,7 +16,7 @@ describe("testing/users", () => {
   //   return await User.deleteMany({}); // Cambiar esto y que sólo me borre el de testing
   // });
   afterAll(async () => {
-    return await User.findByIdAndDelete(newUser._id); // Cambiar esto y que sólo me borre el de testing
+    return await User.deleteOne({ email: "testing@test.com" }); // Cambiar esto y que sólo me borre el de testing
   });
 
   test("Create a user", async () => {
@@ -42,8 +42,6 @@ describe("testing/users", () => {
     const newUser = res.body.user;
     expect(newUser).toEqual(sendUser);
   });
-
-  let newUser;
 
   test("Confirm a user", async () => {
     const emailToken = jwt.sign({ email: user.email }, jwt_secret, {
