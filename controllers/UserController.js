@@ -212,7 +212,7 @@ const UserController = {
         expiresIn: "48h",
       });
 
-      const url = "http://localhost:3000/users/resetPassword/" + recoverToken;
+      const url = "http://localhost:3000/users/resetpassword/" + recoverToken;
 
       await transporter.sendMail({
         to: req.params.email,
@@ -229,8 +229,27 @@ const UserController = {
       });
 
       res.send({
-        message: "Un correo de recuperación se envio a tu dirección de correo",
+        message: "Email sent to your mail to reset password",
       });
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  async resetPassword(req, res) {
+    try {
+      const recoverToken = req.params.recoverToken;
+
+      const payload = jwt.verify(recoverToken, jwt_secret);
+      const password = await bcrypt.hash(req.body.password, 10);
+
+      await User.findOneAndUpdate(
+        { email: payload.email },
+
+        { password: password }
+      );
+      
+
+      res.send({ message: "password changed succesfully" });
     } catch (error) {
       console.error(error);
     }

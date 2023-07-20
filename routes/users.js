@@ -12,6 +12,7 @@ router.get(
 router.get("/getuserbyusername/:username", UserController.getUserByUserName);
 router.get("/getuserbyid/:_id", UserController.getUserById);
 router.get("/confirm/:email", UserController.confirm);
+router.get('/recoverpassword/:email',UserController.recoverPassword)
 
 router.post(
   "/register",
@@ -20,6 +21,7 @@ router.post(
 );
 router.post("/login", UserController.login);
 
+router.put('/resetpassword/:recoverToken',UserController.resetPassword)
 router.put("/follow/:_id", authentication, UserController.follow);
 router.put("/unfollow/:_id", authentication, UserController.unfollow);
 
