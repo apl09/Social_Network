@@ -1,12 +1,12 @@
 const Post = require("../models/Post");
 
+
 const PostController = {
   async create(req, res, next) {
     try {
       const post = await Post.create({
         ...req.body,
-        userId: req.user._id,
-        image: req.file.filename,
+        userId: req.user._id,        
       });
 
       res.status(201).send({ msg: "Post created correctly", post });
@@ -80,14 +80,19 @@ const PostController = {
 
   async getPostUserComment(req, res) {
     try {
+      let x = req.someValue; 
+      if (typeof x === 'string') {
+        x = x.replace(/[{()}]/g, '');
+      }
+  
       const { page = 1, limit = 10 } = req.query;
       const post = await Post.find()
-        .populate("userId")
-        .populate("commentIds")
+        .populate("userId", "username") 
+        .populate("commentIds", "commentText") 
         .limit(parseInt(limit))
         .skip((page - 1) * limit)
         .exec();
-
+  
       res.send(post);
     } catch (error) {
       console.error(error);
