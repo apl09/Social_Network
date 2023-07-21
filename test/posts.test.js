@@ -12,7 +12,7 @@ describe("testing/users", () => {
   };
 
   afterAll(async () => {
-    return await Post.deleteMany({}); // Cambiar esto y que sólo me borre el de testing
+    return await Post.deleteOne({ title: "Testing" });
   });
 
   // Para crear el post debo de estar conectado con un token

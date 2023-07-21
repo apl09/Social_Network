@@ -10,11 +10,9 @@ describe("testing/users", () => {
     username: "Testing",
     email: "testing@test.com",
     password: "test1234",
+    confirmed: true,
   };
 
-  // afterAll(async () => {
-  //   return await User.deleteMany({}); // Cambiar esto y que sólo me borre el de testing
-  // });
   afterAll(async () => {
     return await User.deleteOne({ email: "testing@test.com" }); // Cambiar esto y que sólo me borre el de testing
   });
@@ -24,6 +22,7 @@ describe("testing/users", () => {
       .post("/users/register")
       .send(user)
       .expect(201);
+
     const sendUser = {
       ...user,
       _id: res.body.user._id,
@@ -52,8 +51,9 @@ describe("testing/users", () => {
       .expect(201);
     expect(res.text).toBe("User successfully confirmed");
   });
+  let token;
 
-  // Me da error a la hora de confirmar usuario, no se si es culpa del de arriba o el siguiente
+  // No funciona el confirmar usuario
   test("Login a user", async () => {
     const res = await request(app)
       .post("/users/login")
@@ -62,5 +62,4 @@ describe("testing/users", () => {
     expect(res.body.token).toBeDefined();
     token = res.body.token;
   });
-  let token;
 });
