@@ -20,7 +20,7 @@ const PostController = {
     try {
       const post = await Post.findByIdAndUpdate(
         req.params._id,
-        { ...req.body, image: req.file?.filename }, //Esta línea da error
+        { ...req.body, image: req.file?.filename },
         { new: true }
       );
 

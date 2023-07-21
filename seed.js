@@ -4,7 +4,6 @@ const Post = require("./models/post.js");
 const Comment = require("./models/comment.js");
 const bcrypt = require("bcryptjs");
 
-// Conecta a la base de datos
 mongoose
   .connect(
     "mongodb+srv://adrianramirezgalera:adrian1234@cluster0.hmghsi0.mongodb.net/socialnetwork",
@@ -16,7 +15,6 @@ mongoose
   .then(() => {
     console.log("Conexión exitosa a la base de datos");
 
-    // Datos iniciales que deseas insertar
     const initialUsers = [
       {
         username: "Adrian",
@@ -166,7 +164,6 @@ mongoose
       },
     ];
 
-    // Inserta los datos iniciales en la base de datos
     Promise.all([
       User.insertMany(initialUsers),
       Post.insertMany(initialPosts),
