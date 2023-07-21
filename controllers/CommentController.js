@@ -3,6 +3,21 @@ const User = require("../models/user");
 const Post = require("../models/Post");
 
 const CommentController = {
+  
+  async getById(req, res) {
+    try {
+      const comment = await Comment.findById(req.params._id);
+      
+      if (!comment) {
+        return res.status(400).send({ message: "This comment doesn't exist" });
+      }
+      
+      res.send(comment);
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
   async create(req, res, next) {
     try {
       const userConnected = await User.findById(req.user._id);
@@ -18,21 +33,7 @@ const CommentController = {
       next(error);
     }
   },
-
-  async getById(req, res) {
-    try {
-      const comment = await Comment.findById(req.params._id);
-
-      if (!comment) {
-        return res.status(400).send({ message: "This comment doesn't exist" });
-      }
-
-      res.send(comment);
-    } catch (error) {
-      console.error(error);
-    }
-  },
-
+  
   async update(req, res) {
     try {
       const comment = await Comment.findByIdAndUpdate(
@@ -44,19 +45,6 @@ const CommentController = {
       res.send({ message: "Comment successfully updated", comment });
     } catch (error) {
       console.error(error);
-    }
-  },
-
-  async delete(req, res) {
-    try {
-      const comment = await Comment.findByIdAndDelete(req.params._id);
-
-      res.send({ message: "Comment deleted", comment });
-    } catch (error) {
-      console.error(error);
-      res
-        .status(500)
-        .send({ message: "There was a problem trying to remove the comment" });
     }
   },
   
@@ -108,6 +96,19 @@ const CommentController = {
       console.error(error);
 
       res.status(500).send({ message: "There was a problem with your like" });
+    }
+  },
+
+  async delete(req, res) {
+    try {
+      const comment = await Comment.findByIdAndDelete(req.params._id);
+
+      res.send({ message: "Comment deleted", comment });
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .send({ message: "There was a problem trying to remove the comment" });
     }
   },
 };

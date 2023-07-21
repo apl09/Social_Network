@@ -1,44 +1,14 @@
 const Post = require("../models/Post");
 
-
 const PostController = {
-  async create(req, res, next) {
+  async getAll(req, res) {
     try {
-      const post = await Post.create({
-        ...req.body,
-        userId: req.user._id,        
-      });
+      const posts = await Post.find().populate("userId").populate("commentIds");
 
-      res.status(201).send({ msg: "Post created correctly", post });
+      res.send(posts);
     } catch (error) {
       console.error(error);
-      next(error);
-    }
-  },
-
-  async update(req, res) {
-    try {
-      const post = await Post.findByIdAndUpdate(
-        req.params._id,
-        { ...req.body, image: req.file?.filename },
-        { new: true }
-      );
-
-      res.send({ message: "Post successfully updated", post });
-    } catch (error) {
-      console.error(error);
-    }
-  },
-
-  async delete(req, res) {
-    try {
-      const post = await Post.findByIdAndDelete(req.params._id);
-      res.send({ message: "Post deleted", post });
-    } catch (error) {
-      console.error(error);
-      res
-        .status(500)
-        .send({ message: "There was a problem trying to remove the post" });
+      res.status(500).send({ message: "There was a problem" });
     }
   },
 
@@ -80,23 +50,51 @@ const PostController = {
 
   async getPostUserComment(req, res) {
     try {
-      let x = req.someValue; 
-      if (typeof x === 'string') {
-        x = x.replace(/[{()}]/g, '');
+      let x = req.someValue;
+      if (typeof x === "string") {
+        x = x.replace(/[{()}]/g, "");
       }
-  
+
       const { page = 1, limit = 10 } = req.query;
       const post = await Post.find()
-        .populate("userId", "username") 
-        .populate("commentIds", "commentText") 
+        .populate("userId", "username")
+        .populate("commentIds", "commentText")
         .limit(parseInt(limit))
         .skip((page - 1) * limit)
         .exec();
-  
+
       res.send(post);
     } catch (error) {
       console.error(error);
       res.status(500).send(error);
+    }
+  },
+
+  async create(req, res, next) {
+    try {
+      const post = await Post.create({
+        ...req.body,
+        userId: req.user._id,
+      });
+
+      res.status(201).send({ msg: "Post created correctly", post });
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+  },
+
+  async update(req, res) {
+    try {
+      const post = await Post.findByIdAndUpdate(
+        req.params._id,
+        { ...req.body, image: req.file?.filename },
+        { new: true }
+      );
+
+      res.send({ message: "Post successfully updated", post });
+    } catch (error) {
+      console.error(error);
     }
   },
 
@@ -150,14 +148,15 @@ const PostController = {
     }
   },
 
-  async getAll(req, res) {
+  async delete(req, res) {
     try {
-      const posts = await Post.find().populate("userId").populate("commentIds");
-
-      res.send(posts);
+      const post = await Post.findByIdAndDelete(req.params._id);
+      res.send({ message: "Post deleted", post });
     } catch (error) {
       console.error(error);
-      res.status(500).send({ message: "There was a problem" });
+      res
+        .status(500)
+        .send({ message: "There was a problem trying to remove the post" });
     }
   },
 };
