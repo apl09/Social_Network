@@ -19,6 +19,7 @@ const PostSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
 PostSchema.methods.toJSON = function () {
   const post = this._doc;  
   delete post.createdAt;

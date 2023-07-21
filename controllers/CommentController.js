@@ -59,6 +59,7 @@ const CommentController = {
         .send({ message: "There was a problem trying to remove the comment" });
     }
   },
+  
   async like(req, res) {
     try {
       const comment = await Comment.findById(req.params._id);

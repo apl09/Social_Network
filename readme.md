@@ -55,7 +55,7 @@ Below are some of the endpoints We will be implementing in the API:
 - `PUT /api/posts/:id`: Endpoint for updating a post (authentication required).
 - `DELETE /api/posts/:id`: Endpoint for deleting a post (authentication required).
 - `GET /api/posts`: Endpoint for fetching all posts along with their authors and comments.
-- `GET /api/posts/search?query=:name`: Endpoint for searching posts by name.
+- `GET /api/posts/search:name`: Endpoint for searching posts by name.
 - `GET /api/posts/:id`: Endpoint for fetching a specific post by ID.
 - Validation is implemented while creating a post to ensure all fields are filled (except the image, which is optional).
 

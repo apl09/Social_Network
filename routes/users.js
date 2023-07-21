@@ -4,21 +4,13 @@ const UserController = require("../controllers/UserController");
 const { authentication } = require("../middlewares/authentication");
 const { uploadUserImages } = require("../middlewares/multer");
 
-router.get(
-  "/getuserconnected",
-  authentication,
-  UserController.getUserConnected
-);
+router.get( "/getuserconnected", authentication, UserController.getUserConnected);
 router.get("/getuserbyusername/:username", UserController.getUserByUserName);
 router.get("/getuserbyid/:_id", UserController.getUserById);
 router.get("/confirm/:email", UserController.confirm);
 router.get('/recoverpassword/:email',UserController.recoverPassword)
 
-router.post(
-  "/register",
-  uploadUserImages.single("avatar"),
-  UserController.register
-);
+router.post( "/register", uploadUserImages.single("avatar"), UserController.register);
 router.post("/login", UserController.login);
 
 router.put('/resetpassword/:recoverToken',UserController.resetPassword)

@@ -13,6 +13,7 @@ const CommentSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
 CommentSchema.methods.toJSON = function () {
   const comment = this._doc;  
   delete comment.createdAt;

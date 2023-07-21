@@ -214,6 +214,7 @@ const UserController = {
       res.status(500).send({ message: "There was a problem with your follow" });
     }
   },
+  
   async recoverPassword(req, res) {
     try {
       const recoverToken = jwt.sign({ email: req.params.email }, jwt_secret, {
@@ -243,6 +244,7 @@ const UserController = {
       console.error(error);
     }
   },
+
   async resetPassword(req, res) {
     try {
       const recoverToken = req.params.recoverToken;
