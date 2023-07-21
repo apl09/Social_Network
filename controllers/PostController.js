@@ -58,7 +58,7 @@ const PostController = {
       const { page = 1, limit = 10 } = req.query;
       const post = await Post.find()
         .populate("userId", "username")
-        .populate("commentIds", "commentText")
+        .populate("commentIds", "title body")
         .limit(parseInt(limit))
         .skip((page - 1) * limit)
         .exec();
