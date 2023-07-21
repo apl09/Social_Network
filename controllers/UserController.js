@@ -1,9 +1,10 @@
 const User = require("../models/user");
 const transporter = require("../config/nodemailer");
+require("dotenv").config();
 
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { jwt_secret } = require("../config/keys.js");
+const jwt_secret = process.env.JWT_SECRET
 
 const UserController = {
   async getUserConnected(req, res) {
