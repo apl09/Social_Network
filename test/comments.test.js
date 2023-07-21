@@ -1,15 +1,15 @@
 const request = require("supertest");
 const app = require("../index ");
-const Post = require("../models/Post");
+const Comment = require("../models/comment");
 
 describe("testing/users", () => {
-  const post = {
+  const comment = {
     title: "Testing",
     body: "this is a test",
   };
 
   afterAll(async () => {
-    return await Post.deleteOne({ title: "Testing" });
+    return await Comment.deleteOne({ title: "Testing" });
   });
 
   let token;
@@ -23,14 +23,14 @@ describe("testing/users", () => {
     token = res.body.token;
   });
 
-  test("Create a post", async () => {
+  test("Create a comment", async () => {
     const res = await request(app)
-      .post("/posts/create")
-      .send(post)
+      .post("/comments/create")
+      .send(comment)
       .set({ Authorization: token })
       .expect(201);
 
-    expect(res.body.post._id).toBeDefined();
-    expect(res.body.post.userId).toBeDefined();
+    expect(res.body.comment._id).toBeDefined();
+    expect(res.body.comment.userId).toBeDefined();
   });
 });
