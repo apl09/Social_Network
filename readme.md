@@ -32,6 +32,8 @@ Greetings! In this backend project, We will be combining my acquired knowledge i
 
 <img align="center" alt="Rafa-VisualStudio" height="50" width="60" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/mongoose/mongoose.png">
 
+<img align="center" alt="Rafa-VisualStudio" height="50" width="60" src="https://w7.pngwing.com/pngs/956/695/png-transparent-mongodb-original-wordmark-logo-icon-thumbnail.png">
+
 
 
 ## Description 📝
