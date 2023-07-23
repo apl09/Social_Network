@@ -125,6 +125,6 @@ Thank you for taking the time to review my README! 😄 If you have any other re
 
 ## Contact
 
-<a href="https://www.linkedin.com/in/adri%C3%A1n-pastor-l%C3%B3pez-0598bb282/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> 
+<a href="https://www.linkedin.com/in/adri%C3%A1n-pastor-l%C3%B3pez-0598bb282/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank">Adrián Pastor López</a> 
 
-<a href="https://www.linkedin.com/in/adri%C3%A1n-ram%C3%ADrez-galera-216794264/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> 
+<a href="https://www.linkedin.com/in/adri%C3%A1n-ram%C3%ADrez-galera-216794264/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank">Adrián Ramírez Gálera</a> 
