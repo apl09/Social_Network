@@ -19,6 +19,21 @@
 
 Greetings! In this backend project, We will be combining my acquired knowledge in the technologies 🛠️ Node.js + Express, along with MongoDB/Mongoose, to create a fabulous API REST for a social network.
 
+
+### Built with :
+
+<img align="center" alt="Rafa-Js" height="50" width="60" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-plain.svg">
+
+<img align="center" alt="npm" height="50" width="60" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/npm/npm-original-wordmark.svg">
+
+<img align="center" alt="Rafa-Node" height="50" width="60" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg">
+
+<img align="center" alt="Rafa-VisualStudio" height="50" width="60" src="https://cdn.svgporn.com/logos/visual-studio-code.svg">
+
+<img align="center" alt="Rafa-VisualStudio" height="50" width="60" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/mongoose/mongoose.png">
+
+
+
 ## Description 📝
 
 After carefully analyzing the project requirements, We will develop an API REST capable of the following features:
