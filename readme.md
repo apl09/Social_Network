@@ -122,3 +122,9 @@ In addition to the main requirements, we've gone above and beyond and added thes
 I will upload the project to a public repository on GitHub and leave the link to the repository attached in Classroom. I ensure a comprehensive README with all necessary information.
 
 Thank you for taking the time to review my README! 😄 If you have any other requests or changes, please let me know. Good luck with your task! 🚀
+
+## Contact
+
+<a href="https://www.linkedin.com/in/adri%C3%A1n-pastor-l%C3%B3pez-0598bb282/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> 
+
+<a href="https://www.linkedin.com/in/adri%C3%A1n-ram%C3%ADrez-galera-216794264/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> 
