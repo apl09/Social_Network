@@ -1,5 +1,5 @@
 const request = require("supertest");
-const app = require("../index ");
+const app = require("../index");
 const User = require("../models/user");
 
 describe("testing/users", () => {
@@ -11,7 +11,7 @@ describe("testing/users", () => {
   };
 
   afterAll(async () => {
-    return await User.deleteOne({ email: "testing@test.com" }); // Cambiar esto y que sólo me borre el de testing
+    return await User.deleteOne({ email: "testing@test.com" });
   });
 
   test("Create a user", async () => {

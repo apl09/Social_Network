@@ -1,5 +1,5 @@
 const request = require("supertest");
-const app = require("../index ");
+const app = require("../index");
 const Comment = require("../models/comment");
 
 describe("testing/users", () => {
