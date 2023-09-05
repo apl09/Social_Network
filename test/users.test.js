@@ -6,8 +6,7 @@ describe("testing/users", () => {
   const user = {
     username: "Testing",
     email: "testing@test.com",
-    password: "test1234",
-    confirmed: true,
+    password: "test1234"
   };
 
   afterAll(async () => {
